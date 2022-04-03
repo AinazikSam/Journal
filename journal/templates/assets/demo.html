@@ -1,0 +1,634 @@
+{% load i18n %}
+{% load widget_tweaks %}
+{% block content %}
+    <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Журнал основных средств</title>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+        <style>
+            /*css*/
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: Arial;
+            }
+
+            table {
+                width: 300px; /* Ширина таблицы */
+                border: 1px solid black;
+            {#border-collapse: collapse;#}
+            }
+
+            table, th, td {
+                width: 0px;
+                margin: auto;
+                font-size: 9px;
+                color: oldlace;
+                padding-top: 100px;
+                padding-right: 20px;
+                padding-left: 20px;
+                padding-bottom: 20px;
+                text-align: center;
+                border: 1px solid rgb(105, 105, 105);
+                border-spacing: 0px 0px;
+                margin-top: -120px;
+            }
+
+            th {
+                border: lpx solid rgb(190, 190, 190);
+                padding: 15px;
+                background: rgb(85, 187, 201);
+            }
+
+            th[scope="col"] {
+                background-color: rgb(39, 86, 114);
+
+            }
+
+            td {
+                padding: 10px;
+                border: 1px solid #999;
+            }
+
+            td:not([contenteditable=true]) {
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+            caption {
+                padding: 10px;
+                caption-side: left;
+                color: black;
+                font-size: 15px;
+            }
+
+            .button {
+                border: none;
+                color: rgb(7, 4, 4);
+                padding: 15px 32px;
+                text-align: left;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 13px;
+                margin: 4px -410px;
+                cursor: pointer;
+                background: #008cba;
+                margin-top: 100px;
+                margin-left: 450px;
+            }
+
+            .button {
+                background-color: #008cba;
+            }
+
+            body {
+                font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 1.5;
+                color: #292b2c;
+                background-color: #fff;
+            }
+
+            /* The Modal (background) */
+            .modal {
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                padding-top: 100px; /* Location of the box */
+                left: -500;
+                top: 0;
+                width: 150%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0, 0, 0); /* Fallback color */
+                background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+            }
+
+            .modal2 {
+                display: none; /* Hidden by default */
+                position: absolute; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                padding-top: 100px; /* Location of the box */
+                left: -500;
+                top: 0;
+                width: 150%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0, 0, 0); /* Fallback color */
+                background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+            }
+
+            /* Modal Content */
+            .modal-content {
+                background-color: #fefefe;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 40%;
+            }
+
+            /* Modal Content */
+            .modal2-content {
+                background-color: #fefefe;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 40%;
+            }
+
+            /* The Close Button */
+            .close {
+                color: #aaaaaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .modaltitle {
+                margin-left: 410;
+                margin-top: -1px;
+            }
+
+            .row {
+                display: flex;
+                flex-wrap: wrap;
+                margin-right: -15px;
+                margin-left: -15px;
+            }
+
+            .col-4 {
+                -webkit-box-flex: 0;
+
+                flex: 0 0 33.333333%;
+                max-width: 33.333333%;
+            }
+        </style>
+    </head>
+    <body>
+
+    <table id="table">
+        <button class="button" onclick="show_modal(1)">Перемещение</button>
+        <button class="button" onclick="show_modal(2)">Передача</button>
+        <button class="button" onclick="show_modal(3)">Списание</button>
+        <button class="button" onclick="show_modal2(1)" style="margin-left: 710px">Добавить</button>
+
+        <caption>Журнал основных средств</caption>
+        <tr>
+            <th rowspan="2"></th>
+            <th>Дата</th>
+            <th>Ответственное лицо</th>
+            <th>Основное лицо</th>
+            <th>Счет учета</th>
+            <th>Код имущества</th>
+            <th>Первоначальная стоимость(восстановления)</th>
+            <th>% годовой амортизации</th>
+            <th>Сумма модернизации</th>
+            <th rowspan="2">Функция</th>
+            <th rowspan="2">
+                <div class="">
+                    <i><a href="" type="submit"><img
+                            src="https://cdn1.iconfinder.com/data/icons/basic-ui-elements-color-round/3/15-128.png"
+                            width="20" height="20"></a></i>
+                </div>
+            </th>
+        </tr>
+        <tr>
+
+            <th>Статус</th>
+            <th>Местонахождение</th>
+            <th>ИНв. номер</th>
+            <th>Счет амортизации</th>
+            <th>Дата ввода в эксплуатацию</th>
+            <th>Срок исп. (мес)</th>
+            <th>Накопленная амортизация</th>
+            <th>Балансовая стоимость</th>
+
+        </tr>
+        {% for object in results %}
+            <tr>
+                <td></td>
+                <td>{{ object.data }}</td>
+                <td>{{ object.responsible_person }}</td>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+                <td rowspan="2">
+                    <button type="button" value="Print this page" style="margin-top: -2px; margin-left: 35px"
+                            onClick="window.print()">
+                        <i><a href=""><img
+                                src="https://cdn4.iconfinder.com/data/icons/device-solid/48/print_printer_printout-128.png"
+                                width="15" height="15"></a></i>
+                    </button>
+                    <button type="edit" class="" style="margin-top: -24px; margin-left: -25px">
+                        <i><a href="{% url 'assets_update' object.id %}"><img
+                                src="https://cdn3.iconfinder.com/data/icons/delivery-and-logistics-1/24/iconfinder-68-128.png"
+                                width="15" height="15"></a></i>
+                    </button>
+                </td>
+                <td rowspan="2">
+                    <button type="submit" class="btn btn-default">
+                        <i><a href=""><img
+                                src="https://cdn1.iconfinder.com/data/icons/basic-ui-elements-color-round/3/15-128.png"
+                                width="15" height="15"></a></i>
+                    </button>
+                </td>
+
+            </tr>
+            <tr>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+                <td>{{ object }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+
+
+
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" id="modal_close">&times;</span>
+            <div class="modal-header">
+                <h3 id="modal_title" class="modaltitle"></h3>
+            </div>
+            <form action="" method="post" style="text-align: center">
+                {% csrf_token %}
+                <div class="form-row" id="inventory_number" style="margin: 15px 0 15px 0">{{ object.inventory_number }}<input type="text"
+                                                                                                 placeholder="Инв. номер">
+                </div>
+                <div class="form-row" id="location" style="margin: 15px 0 15px 0">{{ object.location }}<input type="text"
+                                                                                         placeholder="Местонахождение">
+                </div>
+                <div class="form-row" id="event" style="margin: 15px 0 15px 0"><input type="text"
+                                                                                      placeholder="Событие">
+                </div>
+                <div class="form-row" id="base" style="margin: 15px 0 15px 0"><input type="text"
+                                                                                     placeholder="Основание">
+                </div>
+                <div class="form-row" id="recipient" style="margin: 15px 0 15px 0"><input type="text"
+                                                                                          placeholder="Получатель">
+
+                </div>
+                <div class="form-row" id="responsible_person0" style="margin: 15px 0 15px 0">{{ object.responsible_person0 }}<input type="text"
+                                                                                                    placeholder="Ответственный">
+
+                </div>
+                <div class="form-row" id="invoice0" style="margin: 15px 0 15px 0"><input type="text"
+                                                                                         placeholder="Накладная">
+
+                </div>
+                <div class="form-row" id="name" style="margin: 15px 0 15px 0"><input type="text"
+                                                                                     placeholder="Наименование">
+
+                </div>
+                <div class="form-row" id="responsible_person1" style="margin: 15px 0 15px 0"><input type="text"
+                                                                                                    placeholder="Ответственный">
+
+                </div>
+                <div class="form-row" id="number" style="margin: 15px 0 15px 0"><input type="text" placeholder="Номер">
+
+                </div>
+                <div class="form-row" id="date0" style="margin: 15px 0 15px 0"><input type="text" placeholder="Дата">
+
+                </div>
+                <div class="form-row" id="name1" style="margin: 15px 0 15px 0"><input type="text"
+                                                                                      placeholder="Наименовани">
+
+                </div>
+                <div class="form-row" id="name_surname" style="margin: 15px 0 15px 0"><input type="text"
+                                                                                             placeholder="Ф.И.О.">
+
+                </div>
+                <div class="form-row" id="date1" style="margin: 15px 0 15px 0"><input type="text" placeholder="Дата">
+
+                </div>
+                <div class="form-row" id="date2" style="margin: 15px 0 15px 0"><input type="text" placeholder="Дата">
+
+                </div>
+                <div class="form-row" id="transfer" style="margin: 15px 0 15px 0"><input type="text"
+                                                                                         placeholder="Акт-прием передачи">
+                </div>
+                <div class="form-row" id="invoice1" style="margin: 15px 0 15px 0"><input type="text"
+                                                                                         placeholder="Накладная/счет-фактура">
+                </div>
+                <div class="form-row" id="defective_act" style="margin: 15px 0 15px 0"><input type="text"
+                                                                                              placeholder="Деффектный акт">
+                </div>
+                <div class="form-row" id="write_off_act" style="margin: 15px 0 15px 0"><input type="text"
+                                                                                              placeholder="Акт о списании">
+                </div>
+                <div class="form-row" id="inn" style="margin: 15px 0 15px 0"><input type="text" placeholder="ИНН">
+                </div>
+                <div class="form-row" id="status" style="margin: 15px 0 15px 0">{{ object.status }}<input type="text" placeholder="Статус">
+                </div>
+                <input type="submit" value="Print">
+                <input type="submit" value="Cancel">
+                <input type="submit" value="Save">
+
+            </form>
+        </div>
+    </div>
+
+    <div id="myModal2" class="modal2">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="modal2-content">
+                <div class="container">
+                    <span2 class="close" id="modal_close2">&times;</span2>
+                    <div class="modal-header2">
+                        <h3 id="modal_title2" class="modaltitle"></h3>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4">
+                            <p class="opr">Операция</p>
+                            {{ assets_form.operation|attr:"" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">Выбор актива</p>
+                            {{ assets_form.asset_selection|attr:"" }}<br>
+
+                        </div>
+                        <div class="col-4">
+                            <p class="">Склад</p>
+                            {{ assets_form.order|attr:"" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">Приказ</p>
+                            {{ assets_form.order|attr:"placeholder:Введите № приказа" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">от</p>
+                            {{ assets_form.order_date|attr:"placeholder:Дата" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">Выбор ОС</p>
+                            {{ assets_form.order|attr:"" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">ИНв. номер</p>
+                            {{ assets_form.inventory_number|attr:"placeholder:Введите инв. номер" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">Изготовитель</p>
+                            {{ assets_form.manufacturer|attr:"placeholder:Введите заводской номер" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">№ паспорта</p>
+                            {{ assets_form.passport_number|attr:"placeholder:Введите заводской номер" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">Первоначальная стоимость</p>
+                            {{ assets_form.initial_cost|attr:"" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">Способ поступления</p>
+                            {{ assets_form.method_of_entry|attr:"" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">Текущее состоянеие</p>
+                            {{ assets_form.current_state|attr:"" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">Счет учета ОС</p>
+                            {{ assets_form.accounting_account|attr:"" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">Ответственный</p>
+                            {{ assets_form.responsible_person|attr:"" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">Заводской №</p>
+                            {{ assets_form.factory_number|attr:"placeholder:Введите заводской номер" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">Дата выпуска</p>
+                            {{ assets_form.release_date|date:"Y-m-d" }}<br>
+                        </div>
+                        <div class="col-4">
+                            <p class="">Текущая стоимость</p>
+                            {{ assets_form.present_value|attr:"placeholder: Сумма" }}<br>
+                        </div>
+                        <label for="" style="display: block;margin-top: 15px">Учет амортизации</label>
+                        <input type="checkbox">
+
+                    </div>
+                    {#  DEPRECIATION CLASS   #}
+                    <p class="">Счет амортизации</p>
+                    {{ depreciation_form.depreciation_account|attr:"" }}<br>
+
+                    <p class="">Способ амортизации</p>
+                    {{ depreciation_form.depreciation_method|attr:"" }}<br>
+
+
+                    <p class="">Предпол. выработка</p>
+                    {{ depreciation_form.preliminary_work|attr:"placeholder: Сумма" }}<br>
+
+                    <p class="">% годовой амортизации</p>
+                    {{ depreciation_form.percent_annual_depr|attr:"" }}<br>
+
+
+                    <p class="">График амортизации</p>
+                    {{ depreciation_form.depreciation_schedule|attr:"" }}<br>
+
+
+                    <p class="">Срок полезного исп.</p>
+                    {{ depreciation_form.period_of_execution|attr:"placeholder: В месяцах" }}<br>
+                    {#                <input type="text" size="25" placeholder="В месяцах" name="" class="">#}
+
+                    <p class="">Текущая амортизация</p>
+                    {{ depreciation_form.current_depreciation|attr:"placeholder: Сумма" }}<br>
+                    {#                <input type="text" size="25" placeholder="Сумма" name="" class="">#}
+
+                    <p class="">Амортизация за год</p>
+                    {{ depreciation_form.percent_annual_depr|attr:"placeholder: Сумма" }}<br>
+                    {#                <input type="text" size="25" placeholder="Сумма" name="" class="">#}
+
+
+                    <label for="" style="display: block; margin-top: 15px">Добавить инвентаризационную коммисию</label>
+                    <input type="checkbox">
+                    {#CommissionMember CLASS#}
+
+
+                    <p class="">Члены коммисии</p>
+                    {{ commission_form.fio|attr:"" }}<br>
+
+                    <p class="">Статус</p>
+                    {{ commission_form.status|attr:"" }}<br>
+                    <span>{{ error }}</span>
+                    <input type="reset" value="Отменить">
+                    <input type="submit" value="Сохранить">
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementById("modal_close");
+
+
+        // When the user clicks on <span> (x), close the modal
+        function show_modal(param) {
+            if (param === 1) {
+                document.getElementById("modal_title").innerHTML = 'Перемещение основных средств';
+                document.getElementById("inventory_number").style.display = 'Block';
+                document.getElementById("location").style.display = 'Block';
+                document.getElementById("event").style.display = "block";
+                document.getElementById("base").style.display = "block";
+                document.getElementById("recipient").style.display = "block";
+                document.getElementById("responsible_person0").style.display = "block";
+                document.getElementById("invoice0").style.display = "block";
+                document.getElementById("name").style.display = "block";
+                document.getElementById("responsible_person1").style.display = "block";
+                document.getElementById("number").style.display = "block";
+                document.getElementById("date0").style.display = "block";
+                document.getElementById("name1").style.display = "block";
+                document.getElementById("name_surname").style.display = "block";
+                document.getElementById("date1").style.display = "block";
+                document.getElementById("date2").style.display = "None";
+                document.getElementById("transfer").style.display = "None";
+                document.getElementById("invoice1").style.display = "None";
+                document.getElementById("defective_act").style.display = "None";
+                document.getElementById("write_off_act").style.display = "None";
+                document.getElementById("inn").style.display = "None";
+                document.getElementById("status").style.display = "None";
+
+            } else if (param === 2) {
+                document.getElementById("modal_title").innerHTML = 'Передача основных средств';
+                document.getElementById("inventory_number").style.display = 'Block';
+                document.getElementById("location").style.display = 'None';
+                document.getElementById("event").style.display = "block";
+                document.getElementById("base").style.display = "block";
+                document.getElementById("recipient").style.display = "block";
+                document.getElementById("responsible_person0").style.display = "block";
+                document.getElementById("invoice0").style.display = "None";
+                document.getElementById("name").style.display = "block";
+                document.getElementById("responsible_person1").style.display = "None";
+                document.getElementById("number").style.display = "block";
+                document.getElementById("date0").style.display = "block";
+                document.getElementById("name1").style.display = "block";
+                document.getElementById("name_surname").style.display = "block";
+                document.getElementById("date1").style.display = "block";
+                document.getElementById("date2").style.display = "block";
+                document.getElementById("transfer").style.display = "Block";
+                document.getElementById("invoice1").style.display = "block";
+                document.getElementById("defective_act").style.display = "None";
+                document.getElementById("write_off_act").style.display = "None";
+                document.getElementById("inn").style.display = "None";
+                document.getElementById("status").style.display = "None";
+            } else if (param === 3) {
+                document.getElementById("modal_title").innerHTML = 'Списание основных средств';
+                document.getElementById("inventory_number").style.display = 'Block';
+                document.getElementById("location").style.display = 'None';
+                document.getElementById("event").style.display = "None";
+                document.getElementById("base").style.display = "block";
+                document.getElementById("recipient").style.display = "None";
+                document.getElementById("responsible_person0").style.display = "None";
+                document.getElementById("invoice0").style.display = "None";
+                document.getElementById("name").style.display = "block";
+                document.getElementById("responsible_person1").style.display = "None";
+                document.getElementById("number").style.display = "block";
+                document.getElementById("date0").style.display = "block";
+                document.getElementById("name1").style.display = "None";
+                document.getElementById("name_surname").style.display = "Block";
+                document.getElementById("date1").style.display = "block";
+                document.getElementById("date2").style.display = "block";
+                document.getElementById("transfer").style.display = "None";
+                document.getElementById("invoice1").style.display = "None";
+                document.getElementById("defective_act").style.display = "Block";
+                document.getElementById("write_off_act").style.display = "Block";
+                document.getElementById("inn").style.display = "Block";
+                document.getElementById("status").style.display = "Block";
+
+            }
+            modal.style.display = "block";
+
+        }
+
+        span.onclick = function () {
+            modal.style.display = 'None';
+        }
+
+    </script>
+
+    <script>
+        var modal2 = document.getElementById("myModal2");
+        var span2 = document.getElementById("modal_close2");
+
+        // When the user clicks on <span> (x), close the modal
+        function show_modal2(param) {
+            if (param === 1) {
+                document.getElementById("modal_title2").innerHTML = 'Списание основных средств';
+            }
+            modal2.style.display = "block";
+        }
+
+        span2.onclick = function () {
+            modal2.style.display = 'None';
+        }
+    </script>
+
+    <script type="text/javascript">
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            w = window.open();
+            w.document.write(printContents);
+            w.print();
+            w.close();
+        }
+    </script>
+    <script>
+        function addHtmlTableRow() {
+            var table = document.getElementById("table"),
+                newRow = table.insertRow(table.length),
+                cell1 = newRow.insertCell(0),
+                cell2 = newRow.insertCell(1),
+                cell3 = newRow.insertCell(2),
+
+                inventoryn = document.getElementById("inventoryn").value,
+                locationn = document.getElementById("locationn").value,
+                responsible = document.getElementById("responsible").value,
+                statuss = document.getElementById("status").value,
+                cell1
+        .
+            innerHTML = inventoryn;
+            cell2.innerHTML = locationn;
+            cell2.innerHTML = responsible;
+        }
+    </script>
+
+{% endblock content %}
+</body>
+</html>
+

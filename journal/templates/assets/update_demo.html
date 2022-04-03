@@ -1,0 +1,119 @@
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Принятие на учет ОС</title>
+    <style>
+        label {
+            padding: 5rem;
+            grid-gap: 16px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+<form enctype="multipart/form-data" action="" method="post" style="margin-left: 600px;height: 1000px  ">
+
+    {% csrf_token %}
+    <div style="margin-left: -600px;background-color: #fefefe;padding: 20px;border: 1px solid #888;width: 70%;height: 600px">
+        <label>Операция</label>
+        {{ form_a.operation|attr:"" }}<br>
+
+
+        <label>Выбор актива</label>
+        {{ form_a.asset_selection|attr:"" }}<br>
+
+        <label>Склад</label>
+        {{ form_a.order|attr:"" }}<br>
+
+        <label>Приказ</label>
+        {{ form_a.order|attr:"placeholder:Введите № приказа" }}<br>
+
+        <label>от</label>
+        {{ form_a.order_date|attr:"placeholder:Дата" }}<br>
+
+        <label>Выбор ОС</label>
+        {{ form_a.order|attr:"" }}<br>
+        <label>ИНв. номер</label>
+        {{ form_a.inventory_number|attr:"placeholder:Введите инв. номер" }}<br>
+
+        <label>Изготовитель</label>
+        {{ form_a.manufacturer|attr:"placeholder:Введите заводской номер" }}<br>
+
+        <label>№ паспорта</label>
+        {{ form_a.passport_number|attr:"placeholder:Введите заводской номер" }}<br>
+
+        <label>Первоначальная стоимость</label>
+        {{ form_a.initial_cost|attr:"" }}<br>
+
+        <label>Способ поступления</label>
+        {{ form_a.method_of_entry|attr:"" }}<br>
+
+        <label>Текущее состоянеие</label>
+        {{ form_a.current_state|attr:"" }}<br>
+
+        <label>Счет учета ОС</label>
+        {{ form_a.accounting_account|attr:"" }}<br>
+
+        <label>Ответственный</label>
+        {{ form_a.responsible_person|attr:"" }}<br>
+
+        <label>Заводской №</label>
+        {{ form_a.factory_number|attr:"placeholder:Введите заводской номер" }}<br>
+
+        <label>Дата выпуска</label>
+        {{ form_a.release_date|date:"Y-m-d" }}<br>
+
+        <label>Текущая стоимость</label>
+        {{ form_a.present_value|attr:"placeholder: Сумма" }}<br>
+
+        <label for="" style="display: block;margin-top: 15px">Учет амортизации</label>
+        <input type="checkbox">
+    </div>
+
+    <div style="margin-left: 310px;background-color: #fefefe;padding: 20px;border: 1px solid #888;width: 70%; margin-top: -642px;height: 600px">
+        {{ form_d.management_data }}
+        {% csrf_token %}
+        {{ form_d.as_p }}
+{#        <label>Счет амортизации</label>#}
+{#        {{ form_d.depreciation_account|attr:"" }}<br>#}
+{##}
+{#        <label>Способ амортизации</label>#}
+{#        {{ form_d.depreciation_method|attr:"" }}<br>#}
+{##}
+{##}
+{#        <label>Предпол. выработка</label>#}
+{#        {{ form_d.preliminary_work|attr:"placeholder: Сумма" }}<br>#}
+{##}
+{#        <label>% годовой амортизации</label>#}
+{#        {{ form_d.percent_annual_depr|attr:"" }}<br>#}
+{##}
+{##}
+{#        <label>График амортизации</label>#}
+{#        {{ form_d.depreciation_schedule|attr:"" }}<br>#}
+{##}
+{##}
+{#        <label>Срок полезного исп.</label>#}
+{#        {{ form_d.period_of_execution|attr:"placeholder: В месяцах" }}<br>#}
+{#                        <input type="text" size="25" placeholder="В месяцах" name="" class="">#}
+{##}
+{#        <label>Текущая амортизация</label>#}
+{#        {{ form_d.current_depreciation|attr:"placeholder: Сумма" }}<br>#}
+{#                        <input type="text" size="25" placeholder="Сумма" name="" class="">#}
+{##}
+{#        <label>Амортизация за год</label>#}
+{#        {{ form_d.percent_annual_depr|attr:"placeholder: Сумма" }}<br>#}
+{##}
+{#        <label for="" style="display: block; margin-top: 15px">Добавить инвентаризационную коммисию</label>#}
+{#        <input type="checkbox">#}
+
+        {{ formset.management_data }}
+        {{ formset.as_p }}
+
+
+    </div>
+    <button type="submit" style="margin-left: 280px; margin-top: 50px; font-size: 20px">Save</button>
+</form>
+</body>
+</html>
